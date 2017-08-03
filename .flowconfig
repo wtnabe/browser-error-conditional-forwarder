@@ -1,0 +1,13 @@
+[ignore]
+.*/doc/.*
+.*/dist/.*
+.*/node_modules/.*
+
+[include]
+
+[libs]
+
+[options]
+log.file=flow.log
+
+[lints]

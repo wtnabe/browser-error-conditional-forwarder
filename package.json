@@ -1,0 +1,33 @@
+{
+  "name": "browser-error-conditional-forwarder",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/browser_error_conditional_forwarder.js",
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-flow": "^6.23.0",
+    "babel-register": "^6.24.1",
+    "eslint": "^4.3.0",
+    "eslint-plugin-flowtype": "^2.35.0",
+    "flow-bin": "^0.52.0",
+    "intelli-espower-loader": "^1.0.1",
+    "jsdom": "^11.1.0",
+    "mocha": "^3.5.0",
+    "power-assert": "^1.4.4",
+    "sinon": "^2.4.1"
+  },
+  "scripts": {
+    "build": "babel lib --out-dir dist",
+    "clean": "git ls-files -o -X .gitignore -z | xargs -0 rm",
+    "flow": "flow check",
+    "lint": "eslint lib",
+    "prepack": "npm run clean && npm run build",
+    "test": "mocha --require intelli-espower-loader --require babel-register --recursive test"
+  }
+}

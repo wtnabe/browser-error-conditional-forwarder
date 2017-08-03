@@ -1,0 +1,22 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType":  "module"
+  },
+  "plugins": ["flowtype"],
+  "extends": "eslint:recommended",
+  "rules": {
+    "no-var": "error",
+    "no-console": [
+      "error",
+      {
+        "allow": [
+          "warn",
+          "error"
+        ]
+      }
+    ],
+    "camelcase": "error"
+  }
+}

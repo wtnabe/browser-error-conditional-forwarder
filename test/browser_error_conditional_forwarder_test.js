@@ -50,6 +50,44 @@ describe('BrowserErrorConditionalForwarder', ()=> {
     })
   })
 
+  describe('#forwarder', ()=> {
+    describe('empty forwarder', ()=> {
+      describe('no given yet', ()=> {
+        it('return undefined', ()=> {
+          assert.equal(undefined, forwarder.forwarder())
+        })
+      })
+
+      describe('once given and empty', ()=> {
+        beforeEach(()=> {
+          forwarder.forwarder(BrowserErrorAbstractForwarder)
+        })
+
+        it('return added forwarder', ()=> {
+          assert.equal(BrowserErrorAbstractForwarder, forwarder.forwarder().constructor)
+        })
+      })
+    })
+
+    describe('given forwarder', ()=> {
+      describe('valid', ()=> {
+        it('return forwarder', ()=> {
+          assert.equal(
+            BrowserErrorAbstractForwarder,
+            forwarder.forwarder(BrowserErrorAbstractForwarder).constructor)
+        })
+      })
+
+      describe('invalid', ()=> {
+        it('return previous forwarder ( default is undefined )', ()=> {
+          assert.equal(
+            undefined,
+            forwarder.forwarder(class {}))
+        })
+      })
+    })
+  })
+
   describe('#validFilter', ()=> {
     describe('abstract', ()=> {
       it('valid', ()=> {

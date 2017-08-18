@@ -8,6 +8,12 @@ import BrowserErrorConditionalForwarder, {
 
 class BadFilterWithoutFilterMethod {}
 
+class TestingAlwayFalseFilter {
+  filter(message, source, lineno, colno, error = undefined) {
+    return false
+  }
+}
+
 describe('BrowserErrorConditionalForwarder', ()=> {
   let { window } = new JSDOM('')
   let forwarder
@@ -54,6 +60,50 @@ describe('BrowserErrorConditionalForwarder', ()=> {
     describe('BadFilterWithoutFilterMethod', ()=> {
       it('invalid', ()=> {
         assert.equal(false, forwarder.validFilter(BadFilterWithoutFilterMethod))
+      })
+    })
+  })
+
+  describe('#shouldIgnore', ()=> {
+    function subject() {
+      return forwarder.shouldIgnore('message', 'source', 0, 0)
+    }
+
+    describe('no filters', ()=> {
+      it('return false', ()=> {
+        assert.equal(false, subject())
+      })
+    })
+
+    describe('one false filter', ()=> {
+      beforeEach(()=> {
+        forwarder.ignoreFilters(TestingAlwayFalseFilter)
+      })
+
+      it('return false', ()=> {
+        assert.equal(false, subject())
+      })
+    })
+
+    describe('one true filter', ()=> {
+      beforeEach(()=> {
+        forwarder.ignoreFilters(BrowserErrorAbstractIgnoreFilter)
+      })
+
+      it('return true', ()=> {
+        assert.equal(true, subject())
+      })
+    })
+
+    describe('one false and one true filter', ()=> {
+      beforeEach(()=> {
+        forwarder.ignoreFilters(
+          TestingAlwayFalseFilter,
+          BrowserErrorAbstractIgnoreFilter)
+      })
+
+      it('return true', ()=> {
+        assert.equal(true, subject())
       })
     })
   })

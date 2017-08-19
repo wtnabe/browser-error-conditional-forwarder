@@ -49,6 +49,63 @@ describe('BrowserErrorConditionalForwarder', ()=> {
     forwarder = BrowserErrorConditionalForwarder.registerElement(window)
   })
 
+  describe('#registerElement', ()=> {
+    let f
+
+    describe('with opts forwarder', ()=> {
+      describe('with just class', ()=> {
+        beforeEach(()=> {
+          f = BrowserErrorConditionalForwarder.registerElement(
+            window,
+            { forwarder: BrowserErrorAbstractForwarder })
+        })
+
+        it('store forwarder correctly', ()=> {
+          assert.equal(BrowserErrorAbstractForwarder, f.forwarder().constructor)
+        })
+      })
+
+      describe('with array', ()=> {
+        it('throw TypeError', ()=> {
+          assert.throws(
+            ()=> {
+              BrowserErrorConditionalForwarder.registerElement(
+                window,
+                { forwarder: [BrowserErrorAbstractForwarder] })
+            },
+            TypeError
+          )
+        })
+      })
+    })
+
+    describe('with opts ignoreFilters', ()=> {
+      describe('with just class', ()=> {
+        beforeEach(()=> {
+          f = BrowserErrorConditionalForwarder.registerElement(
+            window,
+            { ignoreFilters: BrowserErrorAbstractIgnoreFilter })
+        })
+
+        it('cannot handle', ()=> {
+          assert.deepEqual([], f.ignoreFilters())
+        })
+      })
+
+      describe('with array of class', ()=> {
+        beforeEach(()=> {
+          f = BrowserErrorConditionalForwarder.registerElement(
+            window,
+            { ignoreFilters: [BrowserErrorAbstractIgnoreFilter] })
+        })
+
+        it('accept correctly', ()=> {
+          assert.deepEqual([BrowserErrorAbstractIgnoreFilter], f.ignoreFilters())
+        })
+      })
+    })
+  })
+
   describe('#ignoreFilters', ()=> {
     describe('empty arguments', ()=> {
       it(' return registered filters', ()=> {

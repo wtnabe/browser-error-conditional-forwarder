@@ -25,7 +25,7 @@ BrowserErrorConditionalForwarder.registerElement(
       BrowserErrorAbstractIgnoreFilter
     ],
     forceForwardFilters: [
-      BrowserErrorAbstractForceForwarderFilter
+      BrowserErrorAbstractForceForwardFilter
     ]
   })
 ```
